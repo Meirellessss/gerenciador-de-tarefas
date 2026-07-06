@@ -1,12 +1,19 @@
 """
 Gerenciador de Tarefas (to-do list) - versão terminal
-Projeto de estudo usando o que foi aprendido no Python Mundo 2:
-listas, laços de repetição e funções.
-
-Como funciona: cada tarefa é uma lista [descricao, concluida]
-Exemplo: ["Estudar Python", False]
-E guardamos todas as tarefas dentro de outra lista: tarefas = []
+Agora usando Programação Orientada a Objetos (POO), do Mundo 4.
+Cada tarefa virou um OBJETO da classe Tarefa, em vez de uma lista.
 """
+
+
+class Tarefa:
+    def __init__(self, descricao):
+        # roda quando uma tarefa nova é criada
+        self.descricao = descricao   # atributo: o texto da tarefa
+        self.concluida = False       # tarefa nova sempre começa não concluída
+
+    def concluir(self):
+        # método: marca esta tarefa como concluída
+        self.concluida = True
 
 
 def mostrar_menu():
@@ -22,9 +29,9 @@ def mostrar_menu():
 
 
 def adicionar_tarefa(tarefas):
-    """Pede uma descrição e adiciona uma nova tarefa na lista."""
+    """Pede uma descrição e adiciona uma nova tarefa (objeto) na lista."""
     descricao = input("Digite a nova tarefa: ")
-    tarefas.append([descricao, False])   # False = ainda não concluída
+    tarefas.append(Tarefa(descricao))   # cria um objeto Tarefa e guarda
     print("Tarefa adicionada!")
 
 
@@ -36,11 +43,9 @@ def listar_tarefas(tarefas):
 
     print("\n--- Suas tarefas ---")
     for i in range(len(tarefas)):
-        descricao = tarefas[i][0]
-        concluida = tarefas[i][1]
-        status = "[X]" if concluida else "[ ]"
-        # i + 1 para mostrar começando em 1 (mais amigável que 0)
-        print(f"{i + 1}. {status} {descricao}")
+        tarefa = tarefas[i]
+        status = "[X]" if tarefa.concluida else "[ ]"
+        print(f"{i + 1}. {status} {tarefa.descricao}")
 
 
 def concluir_tarefa(tarefas):
@@ -52,20 +57,18 @@ def concluir_tarefa(tarefas):
     listar_tarefas(tarefas)
     entrada = input("Digite o número da tarefa concluída: ")
 
-    # isdigit() confirma que o usuário digitou só números
     if not entrada.isdigit():
         print("Digite um número válido.")
         return
 
     numero = int(entrada)
-    # o usuário vê começando em 1, mas a lista começa em 0
     indice = numero - 1
 
     if indice < 0 or indice >= len(tarefas):
         print("Essa tarefa não existe.")
         return
 
-    tarefas[indice][1] = True
+    tarefas[indice].concluir()   # chama o método do objeto
     print("Tarefa marcada como concluída!")
 
 
@@ -90,16 +93,14 @@ def remover_tarefa(tarefas):
         return
 
     removida = tarefas.pop(indice)
-    print(f'Tarefa "{removida[0]}" removida!')
+    print(f'Tarefa "{removida.descricao}" removida!')
 
 
 def salvar_tarefas(tarefas):
     """Salva todas as tarefas num arquivo de texto."""
     with open("tarefas.txt", "w", encoding="utf-8") as arquivo:
         for tarefa in tarefas:
-            descricao = tarefa[0]
-            concluida = tarefa[1]
-            arquivo.write(f"{descricao};{concluida}\n")
+            arquivo.write(f"{tarefa.descricao};{tarefa.concluida}\n")
 
 
 def carregar_tarefas():
@@ -108,20 +109,22 @@ def carregar_tarefas():
     try:
         with open("tarefas.txt", "r", encoding="utf-8") as arquivo:
             for linha in arquivo:
-                linha = linha.strip()  # tira o \n do fim
-                if linha == "":  # pula linhas vazias
+                linha = linha.strip()
+                if linha == "":
                     continue
-                partes = linha.split(";")  # separa descrição e status
+                partes = linha.split(";")
                 descricao = partes[0]
-                concluida = partes[1] == "True"  # texto vira True/False
-                tarefas.append([descricao, concluida])
+                tarefa = Tarefa(descricao)          # cria o objeto
+                tarefa.concluida = partes[1] == "True"  # ajusta o status lido
+                tarefas.append(tarefa)
     except FileNotFoundError:
-        pass  # arquivo ainda não existe (primeira vez), tudo bem
+        pass
     return tarefas
+
 
 # ===== Programa principal =====
 def main():
-    tarefas = carregar_tarefas()   # carrega o que estava salvo
+    tarefas = carregar_tarefas()
 
     while True:
         opcao = mostrar_menu()
@@ -144,6 +147,5 @@ def main():
             print("Opção inválida, tente de novo.")
 
 
-# Isso faz o programa rodar quando você executa o arquivo
 if __name__ == "__main__":
     main()
