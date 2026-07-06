@@ -1,8 +1,10 @@
 # Gerenciador de Tarefas
 
-Esse é um projetinho que eu fiz pra praticar o que aprendi no Python, mais especificamente no Mundo 2 do Curso em Vídeo. É um gerenciador de tarefas bem simples que roda direto no terminal.
+Esse é um projeto que eu comecei pra praticar o que aprendi no Python, no Curso em Vídeo. Ele é um gerenciador de tarefas que roda direto no terminal.
 
-A ideia era treinar de verdade em vez de só assistir aula, então resolvi montar algo que juntasse listas, laço de repetição e funções, que foi o que eu tinha acabado de estudar.
+Comecei com o básico do Mundo 2 (listas, laços e funções), e fui evoluindo o projeto conforme avançava nos estudos: adicionei salvamento em arquivo e tratamento de erros (Mundo 3) e depois refatorei tudo usando Programação Orientada a Objetos (Mundo 4). Foi uma forma de aplicar cada coisa nova que eu aprendia num projeto de verdade.
+
+
 
 ## O que ele faz
 
@@ -21,9 +23,7 @@ Depois é só ir digitando o número das opções do menu.
 
 ## Como eu organizei
 
-Cada tarefa é uma lista com duas informações: a descrição e se ela já foi concluída (True ou False). Por exemplo: `["Estudar Python", False]`. Todas as tarefas ficam guardadas dentro de outra lista.
-
-Separei cada parte em uma função (adicionar, listar, concluir, remover) pra não deixar tudo jogado num monte de código só. O menu fica dentro de um `while` que repete até eu escolher sair.
+Cada tarefa é um objeto da classe Tarefa, com a descrição e o status (concluída ou não) como atributos, e um método para marcar como concluída. Refatorei o projeto para usar Programação Orientada a Objetos depois de aprender POO no Mundo 4.
 
 ## O que eu aprendi fazendo
 
