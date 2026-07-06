@@ -31,4 +31,6 @@ A parte de adicionar e listar foi tranquila. O que me deu mais trabalho foi a ho
 
 ## Próximos passos
 
-Por enquanto as tarefas somem quando eu fecho o programa, porque fica tudo na memória. Quando eu terminar o Mundo 3 (a parte de arquivos) eu quero fazer ele salvar as tarefas num arquivo pra não perder tudo. Depois disso pretendo tentar uma versão web.
+Agora o programa salva as tarefas num arquivo de texto, então elas não somem mais quando eu fecho e abro de novo. Pra fazer isso usei manipulação de arquivos e try/except, que aprendi no Mundo 3 do Curso em Vídeo.
+
+O próximo passo que eu quero tentar é uma versão web desse projeto mais pra frente.
