@@ -93,21 +93,50 @@ def remover_tarefa(tarefas):
     print(f'Tarefa "{removida[0]}" removida!')
 
 
+def salvar_tarefas(tarefas):
+    """Salva todas as tarefas num arquivo de texto."""
+    with open("tarefas.txt", "w", encoding="utf-8") as arquivo:
+        for tarefa in tarefas:
+            descricao = tarefa[0]
+            concluida = tarefa[1]
+            arquivo.write(f"{descricao};{concluida}\n")
+
+
+def carregar_tarefas():
+    """Lê as tarefas do arquivo. Se não existir, começa com lista vazia."""
+    tarefas = []
+    try:
+        with open("tarefas.txt", "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                linha = linha.strip()  # tira o \n do fim
+                if linha == "":  # pula linhas vazias
+                    continue
+                partes = linha.split(";")  # separa descrição e status
+                descricao = partes[0]
+                concluida = partes[1] == "True"  # texto vira True/False
+                tarefas.append([descricao, concluida])
+    except FileNotFoundError:
+        pass  # arquivo ainda não existe (primeira vez), tudo bem
+    return tarefas
+
 # ===== Programa principal =====
 def main():
-    tarefas = []   # começa vazio
+    tarefas = carregar_tarefas()   # carrega o que estava salvo
 
     while True:
         opcao = mostrar_menu()
 
         if opcao == "1":
             adicionar_tarefa(tarefas)
+            salvar_tarefas(tarefas)
         elif opcao == "2":
             listar_tarefas(tarefas)
         elif opcao == "3":
             concluir_tarefa(tarefas)
+            salvar_tarefas(tarefas)
         elif opcao == "4":
             remover_tarefa(tarefas)
+            salvar_tarefas(tarefas)
         elif opcao == "5":
             print("Até logo! 👋")
             break
